@@ -44,20 +44,37 @@ async function addContact(name, email, phone) {
   return newContact;
 }
 
-async function updateContacts(contactId, updatedFields) {
+// async function updateContactById(contactId, updatedFields) {
+//   const contacts = await listContacts();
+//   const index = contacts.findIndex((contact) => contact.id === contactId);
+
+//   if (index === -1) {
+//     return null;
+//   }
+
+//   const updatedContact = { ...contacts[index], ...updatedFields };
+//   contacts[index] = updatedContact;
+
+//   await writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+
+//   return updatedContact;
+// }
+
+async function updateContactById(contactId, data) {
   const contacts = await listContacts();
   const index = contacts.findIndex((contact) => contact.id === contactId);
 
-  if (index === -1) {
-    return null; // Контакт не знайдено
-  }
+  if (index === -1) null;
 
-  const updatedContact = { ...contacts[index], ...updatedFields };
-  contacts[index] = updatedContact;
+  for (const [key, value] of Object.entries(data)) {
+    if (value !== undefined) {
+      contacts[index][key] = value;
+    }
+  }
 
   await writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
-  return updatedContact;
+  return contacts[index];
 }
 
 export {
@@ -65,5 +82,5 @@ export {
   getContactById,
   removeContact,
   addContact,
-  updateContacts,
+  updateContactById,
 };

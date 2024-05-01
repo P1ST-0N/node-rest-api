@@ -3,7 +3,7 @@ import {
   getContactById,
   removeContact,
   addContact,
-  updateContacts,
+  updateContactById,
 } from "../services/contactsServices.js";
 import {
   createContactSchema,
@@ -113,7 +113,7 @@ export const updateContact = async (req, res) => {
     // }
 
     // Оновлення контакту
-    const updatedContact = await updateContacts(id, { name, email, phone });
+    const updatedContact = await updateContactById(id, { name, email, phone });
     if (updatedContact) {
       return res.status(200).json(updatedContact);
     } else {
