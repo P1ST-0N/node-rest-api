@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
 
@@ -23,26 +23,27 @@ async function listContacts() {
 
 async function getContactById(contactId) {
   const contacts = await listContacts();
-  return contacts.find((contact) => contact.id === contactId) || null;
+  const result = contacts.find((contact) => contact.id === contactId);
+  return result || null;
+}
+
+async function addContact(name, email, phone) {
+  const contacts = await listContacts();
+  const newContact = { id: randomUUID(), name, email, phone };
+  contacts.push(newContact);
+  await writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  return newContact;
 }
 
 async function removeContact(contactId) {
-  const contacts = await listContacts(); // Додайте await тут
+  const contacts = await listContacts();
   const updatedContacts = contacts.filter(
     (contact) => contact.id !== contactId
   );
   await writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
   const removedContact =
     contacts.find((contact) => contact.id === contactId) || null;
-  return removedContact; // Виправлено removeContact на removedContact
-}
-
-async function addContact(name, email, phone) {
-  const newContact = { id: randomUUID(), name, email, phone };
-  const contacts = await listContacts();
-  contacts.push(newContact);
-  await writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return newContact;
+  return removedContact;
 }
 
 // async function updateContactById(contactId, updatedFields) {
