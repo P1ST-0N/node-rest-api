@@ -3,10 +3,11 @@ import { fileURLToPath } from "url";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-const contactsPath = path.resolve(__dirname, "../db/contacts.json");
+// const contactsPath = path.resolve(__dirname, "../db/contacts.json");
+const contactsPath = path.join("db", "contacts.json");
 
 async function listContacts() {
   try {
